@@ -1,0 +1,91 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; hw1.s ECE353
+    2 00000000         
+    3 00000000         
+    4 00000000                 export           hw1_search_memory
+    5 00000000                 import           WS2812B_write
+    6 00000000         
+    7 00000000         ;**********************************************
+    8 00000000         ; SRAM
+    9 00000000         ;**********************************************
+   10 00000000                 AREA             SRAM, READWRITE
+   11 00000000                 align
+   12 00000000         
+   13 00000000         ;**********************************************
+   14 00000000         ; Constant Variables (FLASH) Segment
+   15 00000000         ;**********************************************
+   16 00000000                 AREA             FLASH, CODE, READONLY
+   17 00000000         
+   18 00000000         hw1_search_memory
+                               PROC
+   19 00000000 4770            BX               LR
+   20 00000002                 ENDP
+   21 00000002         
+   22 00000002 00 00           align
+   23 00000004         
+   24 00000004                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\obj\hw1.d -o.\obj\hw1.o -I.\RTE\_HW1 -IC:\Keil_v5\ARM\PACK\AR
+M\CMSIS\5.0.1\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\In
+clude\TM4C123 --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SE
+TA 524" --predefine="_RTE_ SETA 1" --predefine="TM4C123GH6PM SETA 1" --list=.\l
+st\hw1.lst hw1.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+SRAM 00000000
+
+Symbol: SRAM
+   Definitions
+      At line 10 in file hw1.s
+   Uses
+      None
+Comment: SRAM unused
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+FLASH 00000000
+
+Symbol: FLASH
+   Definitions
+      At line 16 in file hw1.s
+   Uses
+      None
+Comment: FLASH unused
+hw1_search_memory 00000000
+
+Symbol: hw1_search_memory
+   Definitions
+      At line 18 in file hw1.s
+   Uses
+      At line 4 in file hw1.s
+Comment: hw1_search_memory used once
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+WS2812B_write 00000000
+
+Symbol: WS2812B_write
+   Definitions
+      At line 5 in file hw1.s
+   Uses
+      None
+Comment: WS2812B_write unused
+1 symbol
+339 symbols in table

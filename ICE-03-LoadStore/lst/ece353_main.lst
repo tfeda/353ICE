@@ -1,0 +1,223 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; Filename:     main.s 
+    2 00000000         ; Author:       ece353 staff 
+    3 00000000         ; Description:  
+    4 00000000         
+    5 00000000                 export           __main
+    6 00000000         
+    7 00000000         ;**********************************************
+    8 00000000         ; Add Symbolic Constants here
+    9 00000000         ;**********************************************
+   10 00000000 00000001 
+                       BYTE    EQU              1
+   11 00000000 00000002 
+                       HALF_WORD
+                               EQU              2
+   12 00000000 00000004 
+                       WORD    EQU              4
+   13 00000000         ;**********************************************
+   14 00000000         ; SRAM
+   15 00000000         ;**********************************************
+   16 00000000                 AREA             SRAM, READWRITE
+   17 00000000 00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00       ARRAY1  SPACE            8 * HALF_WORD
+   18 00000010 00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00       ARRAY2  SPACE            8 * HALF_WORD
+   19 00000020                 align
+   20 00000020         
+   21 00000020         ;**********************************************
+   22 00000020         ; Constant Variables (FLASH) Segment
+   23 00000020         ;**********************************************
+   24 00000020                 AREA             FLASH, CODE, READONLY
+   25 00000000 00 00   LTABLE  DCW              0
+   26 00000002 01 00           DCW              1
+   27 00000004 08 00           DCW              8
+   28 00000006 1B 00           DCW              27
+   29 00000008 40 00           DCW              64
+   30 0000000A 7D 00           DCW              125
+   31 0000000C D8 00           DCW              216
+   32 0000000E 57 01           DCW              343
+   33 00000010                 align
+   34 00000010         
+   35 00000010         ;**********************************************
+   36 00000010         ; Code (FLASH) Segment
+   37 00000010         ; main assembly program
+   38 00000010         ;**********************************************
+   39 00000010         __main  PROC
+   40 00000010 4812            LDR              R0, =(LTABLE)
+   41 00000012 4913            LDR              R1, =(ARRAY1)
+   42 00000014 4A13            LDR              R2, =(ARRAY2)
+   43 00000016 F8B0 A006       LDRH             R10, [R0, #0x6]
+   44 0000001A         
+   45 0000001A 8803            LDRH             R3, [R0]
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   46 0000001C 8844            LDRH             R4, [R0, #0x2]
+   47 0000001E 8885            LDRH             R5, [R0, #0x4]
+   48 00000020 88C6            LDRH             R6, [R0, #0x6]
+   49 00000022 8907            LDRH             R7, [R0, #0x8]
+   50 00000024 F8B0 800A       LDRH             R8, [R0, #0xA]
+   51 00000028 F8B0 900C       LDRH             R9, [R0, #0xC]
+   52 0000002C         
+   53 0000002C         ;pre-indexed
+   54 0000002C 800B            STRH             R3, [R1]
+   55 0000002E 804C            STRH             R4, [R1, #0x2]
+   56 00000030 808D            STRH             R5, [R1, #0x4]
+   57 00000032 80CE            STRH             R6, [R1, #0x6]
+   58 00000034 810F            STRH             R7, [R1, #0x8]
+   59 00000036 F8A1 800A       STRH             R8, [R1, #0xA]
+   60 0000003A F8A1 900C       STRH             R9, [R1, #0xC]
+   61 0000003E         
+   62 0000003E         ;post-indexed
+   63 0000003E F822 3B02       STRH             R3, [R2], #0x2
+   64 00000042 F822 4B02       STRH             R4, [R2], #0x2
+   65 00000046 F822 5B02       STRH             R5, [R2], #0x2
+   66 0000004A F822 6B02       STRH             R6, [R2], #0x2
+   67 0000004E F822 7B02       STRH             R7, [R2], #0x2
+   68 00000052 F822 8B02       STRH             R8, [R2], #0x2
+   69 00000056 F822 9B02       STRH             R9, [R2], #0x2
+   70 0000005A         
+   71 0000005A         
+   72 0000005A         
+   73 0000005A         
+   74 0000005A         
+   75 0000005A         ; DO NOT MODIFY ANTHING BELOW THIS LINE!!! 
+   76 0000005A         
+   77 0000005A         INFINITE_LOOP
+   78 0000005A E7FE            B                INFINITE_LOOP
+   79 0000005C         
+   80 0000005C                 ENDP
+   81 0000005C                 align
+   82 0000005C         
+   83 0000005C         
+   84 0000005C                 END
+              00000000 
+              00000000 
+              00000000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
+interwork --depend=.\obj\ece353_main.d -o.\obj\ece353_main.o -I.\RTE\_ICE-03-Lo
+adStore -IC:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Inc
+lude -IC:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Includ
+e\TM4C123 --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --predefi
+ne="__UVISION_VERSION SETA 529" --predefine="_RTE_ SETA 1" --predefine="TM4C123
+GH6PM SETA 1" --list=.\lst\ece353_main.lst ece353_main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+ARRAY1 00000000
+
+Symbol: ARRAY1
+   Definitions
+      At line 17 in file ece353_main.s
+   Uses
+      At line 41 in file ece353_main.s
+Comment: ARRAY1 used once
+ARRAY2 00000010
+
+Symbol: ARRAY2
+   Definitions
+      At line 18 in file ece353_main.s
+   Uses
+      At line 42 in file ece353_main.s
+Comment: ARRAY2 used once
+SRAM 00000000
+
+Symbol: SRAM
+   Definitions
+      At line 16 in file ece353_main.s
+   Uses
+      None
+Comment: SRAM unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+FLASH 00000000
+
+Symbol: FLASH
+   Definitions
+      At line 24 in file ece353_main.s
+   Uses
+      None
+Comment: FLASH unused
+INFINITE_LOOP 0000005A
+
+Symbol: INFINITE_LOOP
+   Definitions
+      At line 77 in file ece353_main.s
+   Uses
+      At line 78 in file ece353_main.s
+Comment: INFINITE_LOOP used once
+LTABLE 00000000
+
+Symbol: LTABLE
+   Definitions
+      At line 25 in file ece353_main.s
+   Uses
+      At line 40 in file ece353_main.s
+Comment: LTABLE used once
+__main 00000010
+
+Symbol: __main
+   Definitions
+      At line 39 in file ece353_main.s
+   Uses
+      At line 5 in file ece353_main.s
+Comment: __main used once
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+BYTE 00000001
+
+Symbol: BYTE
+   Definitions
+      At line 10 in file ece353_main.s
+   Uses
+      None
+Comment: BYTE unused
+HALF_WORD 00000002
+
+Symbol: HALF_WORD
+   Definitions
+      At line 11 in file ece353_main.s
+   Uses
+      At line 17 in file ece353_main.s
+      At line 18 in file ece353_main.s
+
+WORD 00000004
+
+Symbol: WORD
+   Definitions
+      At line 12 in file ece353_main.s
+   Uses
+      None
+Comment: WORD unused
+3 symbols
+348 symbols in table

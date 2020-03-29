@@ -1,0 +1,47 @@
+Dependencies for Project 'ICE-Intro-To-C', Target 'ICE-08-Intro-To-C': (DO NOT MODIFY !)
+CompilerVersion: 5060750::V5.06 update 6 (build 750)::ARMCC
+F (.\main.c)(0x5E782989)(-c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I C:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include -I ..\drivers\include -I ..\peripherals\include-I.\RTE\_ICE-08-Intro-To-C-IC:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-D__UVISION_VERSION="529" -D_RTE_ -DTM4C123GH6PM-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5D9B88EA)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9B88E8)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5D9B88E8)
+I (..\peripherals\include\ws2812b.h)(0x5E7829BF)
+I (C:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123.h)(0x530F5566)
+I (C:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123GH6PM.h)(0x5510449C)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm4.h)(0x5D264786)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_version.h)(0x5D264786)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5D264786)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5D264786)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C9004A4)
+I (C:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\system_TM4C123.h)(0x51B74676)
+I (..\drivers\include\driver_defines.h)(0x5E78298B)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5D9B88E8)
+I (C:\Keil_v5\ARM\ARMCC\include\errno.h)(0x5D9B88EA)
+I (..\peripherals\include\validate.h)(0x5E7829BE)
+F (..\peripherals\c\ws2812b.s)(0x5E7829BD)(--cpu Cortex-M4.fp.sp --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_ICE-08-Intro-To-C-IC:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123--pd "__UVISION_VERSION SETA 529" --pd "_RTE_ SETA 1" --pd "TM4C123GH6PM SETA 1"--list .\lst\ws2812b.lst --xref -o .\obj\ws2812b.o --depend .\obj\ws2812b.d)
+F (..\peripherals\c\ws2812b_ice.c)(0x5E7829BD)(-c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I C:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include -I ..\drivers\include -I ..\peripherals\include-I.\RTE\_ICE-08-Intro-To-C-IC:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-D__UVISION_VERSION="529" -D_RTE_ -DTM4C123GH6PM-o .\obj\ws2812b_ice.o --omf_browse .\obj\ws2812b_ice.crf --depend .\obj\ws2812b_ice.d)
+I (..\peripherals\include\ws2812b.h)(0x5E7829BF)
+I (C:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123.h)(0x530F5566)
+I (C:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123GH6PM.h)(0x5510449C)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm4.h)(0x5D264786)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9B88E8)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_version.h)(0x5D264786)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5D264786)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5D264786)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C9004A4)
+I (C:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\system_TM4C123.h)(0x51B74676)
+I (..\drivers\include\driver_defines.h)(0x5E78298B)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5D9B88E8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5D9B88EA)
+I (C:\Keil_v5\ARM\ARMCC\include\errno.h)(0x5D9B88EA)
+F (..\lib\ECE353-Validate.lib)(0x5E7829AD)()
+F (RTE\Device\TM4C123GH6PM\startup_TM4C123.s)(0x5E782989)(--cpu Cortex-M4.fp.sp --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_ICE-08-Intro-To-C-IC:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123--pd "__UVISION_VERSION SETA 529" --pd "_RTE_ SETA 1" --pd "TM4C123GH6PM SETA 1"--list .\lst\startup_tm4c123.lst --xref -o .\obj\startup_tm4c123.o --depend .\obj\startup_tm4c123.d)
+F (RTE\Device\TM4C123GH6PM\system_TM4C123.c)(0x5E782989)(-c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I C:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include -I ..\drivers\include -I ..\peripherals\include-I.\RTE\_ICE-08-Intro-To-C-IC:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-D__UVISION_VERSION="529" -D_RTE_ -DTM4C123GH6PM-o .\obj\system_tm4c123.o --omf_browse .\obj\system_tm4c123.crf --depend .\obj\system_tm4c123.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9B88E8)
+I (C:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123.h)(0x530F5566)
+I (C:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123GH6PM.h)(0x5510449C)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm4.h)(0x5D264786)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_version.h)(0x5D264786)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5D264786)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5D264786)
+I (C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C9004A4)
+I (C:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\system_TM4C123.h)(0x51B74676)

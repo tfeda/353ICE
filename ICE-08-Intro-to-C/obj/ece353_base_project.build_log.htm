@@ -1,0 +1,82 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.29.0.0
+Copyright (C) 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Trenton trent, UW Madison, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.29.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.29.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      lmidk-agdi.dll V???
+Dialog DLL:      TCM.DLL V1.36.5.0
+ 
+<h2>Project:</h2>
+C:\Users\trent\classes\353\ICE_Distribution\ICE-08-Intro-to-C\ICE-Intro-To-C.uvprojx
+Project File Date:  03/22/2020
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'ICE-08-Intro-To-C'
+assembling ws2812b.s...
+assembling startup_TM4C123.s...
+compiling ws2812b_ice.c...
+..\peripherals\c\ws2812b_ice.c(6): error:  #144: a value of type "int" cannot be used to initialize an entity of type "WS2812B_t"
+  	WS2812B_t temp2 = NULL;
+..\peripherals\c\ws2812b_ice.c(18): error:  #65: expected a ";"
+  	int i;
+..\peripherals\c\ws2812b_ice.c(19): error:  #20: identifier "i" is undefined
+  	for(i = 0; i < num_leds; i++){
+..\peripherals\c\ws2812b_ice.c(22): warning:  #1-D: last line of file ends without a newline
+  }
+..\peripherals\c\ws2812b_ice.c(17): warning:  #177-D: variable "direction"  was declared but never referenced
+  	static int direction = 1
+..\peripherals\c\ws2812b_ice.c: 2 warnings, 3 errors
+compiling main.c...
+main.c(61): warning:  #177-D: variable "i"  was declared but never referenced
+    int i;
+main.c: 1 warning, 0 errors
+compiling system_TM4C123.c...
+".\obj\ece353_base_project.axf" - 3 Error(s), 3 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.6.0.pack
+                ARM.CMSIS.5.6.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.3.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.TM4C_DFP.1.1.0.pack
+                Keil.TM4C_DFP.1.1.0
+                Texas Instruments Tiva C Series Device Support and Examples
+   * Component: Startup Version: 1.0.1
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_ICE-08-Intro-To-C
+  C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include
+  C:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.3.0
+
+   * Component: Keil::Device:Startup:1.0.1
+      Source file:   Device\Source\ARM\startup_TM4C123.s
+      Include file:  Device\Include\TM4C123\TM4C123.h
+      Source file:   Device\Source\system_TM4C123.c
+Target not created.
+Build Time Elapsed:  00:00:00
+</pre>
+</body>
+</html>
