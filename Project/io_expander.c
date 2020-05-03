@@ -22,33 +22,35 @@ bool io_expander_init(void)
   //==============================================================
   // Set Slave Address of the MCP23017 
   //==============================================================  
-  i2cSetSlaveAddr(i2cBase, MCP23017_DEV_ID, I2C_WRITE);
+  i2cSetSlaveAddr(IO_EXPANDER_I2C_BASE, MCP23017_DEV_ID, I2C_WRITE);
   
   //==============================================================
   // Set the Direction of IODIRA to be outputs
   // Write 0x00 to IODIRA
   //==============================================================
   // Send the IODIRA Address
-  i2cSendByte( i2cBase, IODIRA, I2C_MCS_START | I2C_MCS_RUN );
+  i2cSendByte( IO_EXPANDER_I2C_BASE, IODIRA, I2C_MCS_START | I2C_MCS_RUN );
 
   // Set PortA to be outputs
-  i2cSendByte( i2cBase, IODIRA,  I2C_MCS_RUN | I2C_MCS_STOP );
+  i2cSendByte( IO_EXPANDER_I2C_BASE, IODIRA,  I2C_MCS_RUN | I2C_MCS_STOP );
 
   //==============================================================
   // Set the Direction of IODIRB to be outputs
   // Write 0x00 to IODIRB
   //==============================================================
   // Send the IODIRB Address
-  i2cSendByte( i2cBase, IODIRB, I2C_MCS_START | I2C_MCS_RUN );
+  i2cSendByte( IO_EXPANDER_I2C_BASE, IODIRB, I2C_MCS_START | I2C_MCS_RUN );
 
   // Set PortB to be outputs
-  i2cSendByte( i2cBase, IODIRB, I2C_MCS_RUN | I2C_MCS_STOP ); 
+  i2cSendByte( IO_EXPANDER_I2C_BASE, IODIRB, I2C_MCS_RUN | I2C_MCS_STOP );
+	
+	return true;
 }
 
 void io_expander_write_reg(uint8_t reg, uint8_t data){
 
 }
 
-uint8_t io_expander_read_reg(uint8_t){
+uint8_t io_expander_read_reg(uint8_t data){
 
 }
