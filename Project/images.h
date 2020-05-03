@@ -28,4 +28,20 @@ extern const uint8_t heartBitmaps[];
 extern const uint8_t heartWidthPixels;
 extern const uint8_t heartHeightPixels;
 
+extern const uint8_t number_WidthPixels;
+extern const uint8_t number_HeightPixels;
+
+// Bitmap info for numbers
+extern const uint8_t number_0Bitmaps[];
+extern const uint8_t number_1Bitmaps[];
+extern const uint8_t number_2Bitmaps[];
+extern const uint8_t number_3Bitmaps[];
+extern const uint8_t number_4Bitmaps[];
+extern const uint8_t number_5Bitmaps[];
+extern const uint8_t number_6Bitmaps[];
+extern const uint8_t number_7Bitmaps[];
+extern const uint8_t number_8Bitmaps[];
+extern const uint8_t number_9Bitmaps[];
+
+
 #endif

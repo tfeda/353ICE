@@ -33,3 +33,4 @@
 .\obj\project_interrupts.o: project_hardware_init.h
 .\obj\project_interrupts.o: main.h
 .\obj\project_interrupts.o: ..\peripherals\include\io_expander.h
+.\obj\project_interrupts.o: ..\peripherals\include\eeprom.h

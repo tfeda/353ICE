@@ -23,6 +23,8 @@
 #define __HARDWARE_INIT_H__
 
 #include "main.h"
+#include <stdio.h>
+#include <string.h>
 
 void init_hardware(void);
 

@@ -174,6 +174,154 @@ void lcd_clear_screen(uint16_t bColor)
         }
   }
 }
+/*******************************************************************************
+* Function Name: lcd_draw_char
+********************************************************************************
+* Summary: Prints a character centered at the coordinates set by x_start, y_start
+* Returns:
+*  Nothing
+*******************************************************************************/
+void lcd_draw_char(
+  uint16_t x_start, 
+  uint16_t image_width_bits, 
+  uint16_t y_start, 
+  uint16_t image_height_pixels, 
+  const uint8_t *image, 
+  uint16_t fColor, 
+  uint16_t bColor,
+  uint8_t rounded_corners
+)
+{
+  uint16_t i,j;
+  uint8_t data;
+  uint16_t byte_index;
+  uint16_t bytes_per_row;
+  
+  lcd_set_pos(x_start,x_start + image_width_bits-1, y_start,   y_start + image_height_pixels - 1);
+  
+  bytes_per_row = image_width_bits / 8;
+  if( (image_width_bits % 8) != 0)
+  {
+    bytes_per_row++;
+  }
+  
+  for (i=0;i< image_height_pixels ;i++)
+  {
+        for(j= 0; j < image_width_bits; j++)
+        {
+            if( (j %8) == 0)
+            {
+              byte_index = (i*bytes_per_row) + j/8;
+              data = image[byte_index];
+            }
+              
+            //============================================================================
+            if ( ( i == 0 ) && (rounded_corners == ROUNDED_LEFT) && (j < 4))
+            {
+              // round top left
+              lcd_write_data_u16(0);
+            }
+            else if ( ( i == 1 ) && (rounded_corners == ROUNDED_LEFT) && (j < 2))
+            {
+              // round top left
+              lcd_write_data_u16(0);
+            }
+            else if ( ( i == 2 ) && (rounded_corners == ROUNDED_LEFT)  && (j < 1))
+            {
+              // round top left
+              lcd_write_data_u16(0);
+            }
+            else if ( ( i == 3 ) && (rounded_corners == ROUNDED_LEFT) && (j < 1))
+            {
+              // round top left
+              lcd_write_data_u16(0);
+            }
+            //============================================================================
+            
+            //============================================================================
+            else if ( ( i == (image_height_pixels-4) ) && (rounded_corners == ROUNDED_LEFT) && ( j < 1))
+            {
+              // round bottom left
+              lcd_write_data_u16(0);
+            }
+            else if ( ( i == (image_height_pixels-3) ) && (rounded_corners == ROUNDED_LEFT) && ( j  < 1))
+            {
+              // round bottom left
+              lcd_write_data_u16(0);
+            }
+            else if ( ( i == (image_height_pixels-2) ) && (rounded_corners == ROUNDED_LEFT) && ( j  < 2))
+            {
+              // round bottom left
+              lcd_write_data_u16(0);
+            }
+            else if ( ( i == (image_height_pixels-1) ) && (rounded_corners == ROUNDED_LEFT) && ( j < 4))
+            {
+              // round bottom left
+              lcd_write_data_u16(0);
+            }
+            //============================================================================
+            
+            
+            //============================================================================
+            else if ( ( i == 0 ) && (rounded_corners == ROUNDED_RIGHT) && ( j  >= (image_width_bits - 4)))
+            {
+              // round top right
+              lcd_write_data_u16(0);
+            }
+            else if ( ( i == 1 ) && (rounded_corners == ROUNDED_RIGHT) && ( j  >= (image_width_bits - 2)))
+            {
+              // round top right
+              lcd_write_data_u16(0);
+            }
+            else if ( ( i == 2 ) && (rounded_corners == ROUNDED_RIGHT) && ( j  >= (image_width_bits - 1)))
+            {
+              // round top right
+              lcd_write_data_u16(0);
+            }
+            else if ( ( i == 3 ) && (rounded_corners == ROUNDED_RIGHT) && ( j  >= (image_width_bits - 1)))
+            {
+              // round top right
+              lcd_write_data_u16(0);
+            }
+            //============================================================================
+            
+            //============================================================================
+            else if ( ( i == (image_height_pixels-4) ) && (rounded_corners == ROUNDED_RIGHT) && ( j  >= (image_width_bits - 1)))
+            {
+              // round bottom right
+              lcd_write_data_u16(0);
+            }
+            else if ( ( i == (image_height_pixels-3) ) && (rounded_corners == ROUNDED_RIGHT) && ( j  >= (image_width_bits - 1)))
+            {
+              // round bottom right
+              lcd_write_data_u16(0);
+            }
+            else if ( ( i == (image_height_pixels-2) ) && (rounded_corners == ROUNDED_RIGHT) && ( j  >= (image_width_bits - 2)))
+            {
+              // round bottom right
+              lcd_write_data_u16(0);
+            }
+            else if ( ( i == (image_height_pixels-1) ) && (rounded_corners == ROUNDED_RIGHT) && ( j >= (image_width_bits - 4)))
+            {
+              // round bottom right
+              lcd_write_data_u16(0);
+            }
+            //============================================================================
+            
+            
+            //============================================================================
+            else if ( data & 0x80)
+            {
+                lcd_write_data_u16(fColor);
+            }
+            else
+            {
+                lcd_write_data_u16(bColor);
+            }
+            data  = data << 1;
+        }
+  }
+}
 
 /*******************************************************************************
 * Function Name: lcd_draw_image

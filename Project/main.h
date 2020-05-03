@@ -39,6 +39,7 @@
 #include "project_interrupts.h"
 #include "project_hardware_init.h"
 #include "io_expander.h"
+#include "eeprom.h"
 
 #define BOARD_WIDTH 240
 #define BOARD_HEIGHT 320

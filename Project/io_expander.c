@@ -68,9 +68,6 @@ bool io_expander_init(void){
   if( initializeI2CMaster(IO_EXPANDER_I2C_BASE)!= I2C_OK)
     return false;
 	
-	// Set slave to be the IO_expander 
-	i2cSetSlaveAddr(I2C1_BASE, MCP23017_DEV_ID, I2C_WRITE);
-	
 	// Config ALL 8 pins on portA to be outputs
 	io_expander_write_reg(MCP23017_IODIRA_R, 0x00);
   

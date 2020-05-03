@@ -32,3 +32,4 @@
 .\obj\main.o: main.h
 .\obj\main.o: project_hardware_init.h
 .\obj\main.o: ..\peripherals\include\io_expander.h
+.\obj\main.o: ..\peripherals\include\eeprom.h

@@ -27,13 +27,28 @@
 void
 init_hardware(void)
 {
+	int i;
+	uint8_t data;
+	
 	DisableInterrupts();
 	init_serial_debug(true, true);
   lcd_config_gpio();
   lcd_config_screen();
-	ft6x06_init();
-	
 	io_expander_init();
+	ft6x06_init();
+	eeprom_init();
+//	//testing eeprom
+//	printf("writing\n");
+//	eeprom_byte_write(EEPROM_I2C_BASE, 256, 20);
+//	//for(i = 0; i < 10000000; i++){}
+//	eeprom_byte_read(EEPROM_I2C_BASE, 256, &data);
+//	printf("Reading %i\n\r",data);
+//	
+//	eeprom_byte_read(EEPROM_I2C_BASE, 256, &data);
+//	printf("Reading %i\n\r",data);
+//	eeprom_byte_read(EEPROM_I2C_BASE, 256, &data);
+//	printf("Reading %i\n\r",data);
+	
   lcd_clear_screen(LCD_COLOR_BLACK);
 	
 	gp_hw_timer_config_32(TIMER2_BASE, PERIODIC, 1000000, false, true); // used for animating the bomb holder

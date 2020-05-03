@@ -21,12 +21,16 @@
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "main.h"
+
+#define ADDR_START    256
+
 struct m_node {
     uint16_t x_coord;
 		uint16_t y_coord;
 	
 		struct m_node *next;
 };
+
 static const uint16_t START_STATE = 0xACE7u;
 typedef struct m_node M_node;
 M_node *s_missle;
@@ -43,6 +47,8 @@ uint16_t HEART_Y = BOARD_HEIGHT - (18) - 5; // put heart at bottom of board
 
 volatile bool ALERT_BOMB_HOLDER;
 
+uint32_t SCORE = 0; // Starting score for eeprom
+uint32_t HIGH_SCORE;
 //*****************************************************************************
 //*****************************************************************************
 void DisableInterrupts(void)
@@ -79,6 +85,7 @@ uint16_t generate_random_number(
 //Used to remove a missle node from a linked list of nodes
 M_node *
 clear_node(M_node *node, M_node *prev){
+	SCORE++;
 	lcd_draw_image(node->x_coord, missleWidthPixels, node->y_coord - 1, missleHeightPixels, missleBitmaps, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
 	if(prev != (M_node *)0){
 		prev->next = node->next;
@@ -90,7 +97,70 @@ clear_node(M_node *node, M_node *prev){
 	return prev;
 	
 }
+bool game_over(void){
+	uint8_t data;
+	printf("SCORE %i\n\r", SCORE);
+	printf("HIGH_SCORE %i\n\r", HIGH_SCORE);
 
+
+	if(SCORE > HIGH_SCORE){
+		//write the data to eeprom in little Endian
+		data = SCORE & 0xFF;
+		if (eeprom_byte_write(I2C1_BASE,ADDR_START, data) != I2C_OK) return false;
+		data = SCORE >> 4;
+		if (eeprom_byte_write(I2C1_BASE, ADDR_START + 1, data) != I2C_OK) return false;
+	}
+	
+	lcd_clear_screen(LCD_COLOR_BLACK);
+	while(1);
+}
+const uint8_t* getNumberMap(uint8_t num){
+	switch(num){
+		case 0: return number_0Bitmaps;
+		case 1: return number_1Bitmaps;
+		case 2: return number_2Bitmaps;
+		case 3: return number_3Bitmaps;
+		case 4: return number_4Bitmaps;
+		case 5: return number_5Bitmaps;
+		case 6: return number_6Bitmaps;
+		case 7: return number_7Bitmaps;
+		case 8: return number_8Bitmaps;
+		case 9: return number_9Bitmaps;
+	}
+}
+void display_High_Score(void){
+	const uint8_t *first;
+	const uint8_t *second;
+	const uint8_t *third;
+	int i;
+	
+	first = getNumberMap(HIGH_SCORE / 100);
+	second = getNumberMap((HIGH_SCORE % 100) / 10);
+	third = getNumberMap((HIGH_SCORE % 100) % 10);
+	
+	lcd_clear_screen(LCD_COLOR_BLACK);
+	lcd_draw_image(BOARD_WIDTH / 2 - 25, number_WidthPixels, BOARD_HEIGHT/4, number_HeightPixels, first, LCD_COLOR_GREEN, LCD_COLOR_BLACK);
+	lcd_draw_image(BOARD_WIDTH / 2, number_WidthPixels, BOARD_HEIGHT/4, number_HeightPixels, second, LCD_COLOR_GREEN, LCD_COLOR_BLACK);
+	lcd_draw_image(BOARD_WIDTH / 2 + 25, number_WidthPixels, BOARD_HEIGHT/4, number_HeightPixels, third, LCD_COLOR_GREEN, LCD_COLOR_BLACK);
+
+	for(i = 0; i < 10000000; i++){}
+
+}
+
+bool start_game(void){
+	uint8_t data;
+	char lcd_char;
+	
+	if (eeprom_byte_read(I2C1_BASE,ADDR_START, &data) != I2C_OK) return false;
+	HIGH_SCORE = data;
+	if (eeprom_byte_read(I2C1_BASE,ADDR_START + 1, &data) != I2C_OK) return false;
+	HIGH_SCORE = HIGH_SCORE | (data << 4);
+	
+
+	display_High_Score();
+	return true;
+	
+}
 //*****************************************************************************
 //*****************************************************************************
 int 
@@ -103,6 +173,9 @@ main(void)
 	
 	init_hardware();
 	
+	start_game();
+	
+	lcd_clear_screen(LCD_COLOR_BLACK);
 	s_missle = malloc(sizeof(M_node));
 	s_missle->x_coord = BOARD_WIDTH / 4;
 	s_missle->y_coord = BOARD_HEIGHT / 4;
@@ -150,6 +223,8 @@ main(void)
 									{
 										life_data = life_data >> 3;
 										io_expander_write_reg(MCP23017_GPIOA_R, life_data);
+										
+										if(life_data == 0) game_over();
 										node = clear_node(node, prev);
 									}
 					else{
