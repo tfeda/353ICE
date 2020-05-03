@@ -88,7 +88,7 @@ static __inline void  port_f_enable_port(void)
 //*****************************************************************************
 static __inline void  port_f_digital_enable(uint8_t bit_mask)
 {
-
+	GPIOF->DEN |= bit_mask;
 }
 
 
@@ -107,7 +107,7 @@ static __inline void  port_f_digital_enable(uint8_t bit_mask)
 //*****************************************************************************
 static __inline void  port_f_enable_output(uint8_t bit_mask)
 {
-  
+  GPIOF->DIR |= bit_mask;
 }
 
 //*****************************************************************************
@@ -125,7 +125,7 @@ static __inline void  port_f_enable_output(uint8_t bit_mask)
 //*****************************************************************************
 static __inline void  port_f_enable_input(uint8_t bit_mask)
 {
-
+	GPIOF->DIR  &= ~bit_mask;
 }
 
 //*****************************************************************************
@@ -143,7 +143,7 @@ static __inline void  port_f_enable_input(uint8_t bit_mask)
 //*****************************************************************************
 static __inline void  port_f_enable_pull_up(uint8_t bit_mask)
 {
-
+	GPIOF->PUR = bit_mask;
 }
 
 //*****************************************************************************
@@ -156,7 +156,7 @@ static __inline void  port_f_enable_pull_up(uint8_t bit_mask)
 //*****************************************************************************
 void  lp_io_set_pin(uint8_t pin_number)
 {
-
+	GPIOF->DATA |= (1<<pin_number);
 }
 
 //*****************************************************************************
@@ -169,7 +169,7 @@ void  lp_io_set_pin(uint8_t pin_number)
 //*****************************************************************************
 void  lp_io_clear_pin(uint8_t pin_number)
 {
-
+	GPIOF->DATA &= ~(1 << pin_number);
 }
 
 //*****************************************************************************
@@ -184,7 +184,15 @@ void  lp_io_clear_pin(uint8_t pin_number)
 //*****************************************************************************
 bool  lp_io_read_pin(uint8_t pin_number)
 {
-  
+	if(GPIOB->DATA  & ( 1 << pin_number )) {
+		return true;
+			// Button is Not Pressed
+	}
+	else
+	{
+		return false;
+			// Button is Pressed
+	}
 }
 
 /*********************************************************************************
@@ -194,6 +202,15 @@ bool  lp_io_read_pin(uint8_t pin_number)
 ********************************************************************************/
 void lp_io_init(void)
 {
-
+		 port_f_enable_port();
+	
+		 port_f_digital_enable(RED_M | BLUE_M | GREEN_M | SW1_M | SW2_M);
+		
+	
+		port_f_enable_output(RED_M | BLUE_M | GREEN_M);
+	
+		port_f_enable_input(SW1_M | SW2_M);
+	
+		port_f_enable_pull_up(SW1_M | SW2_M);
 }
 

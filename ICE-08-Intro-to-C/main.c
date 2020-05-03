@@ -57,9 +57,9 @@ void EnableInterrupts(void)
 //*****************************************************************************
 int 
 main(void)
-{
-  int i;
-  
+{ 
+	int j;
+	uint8_t *led_addr = (uint8_t *)LEDs;
 	if( validate_ice(ICE_INTRO_TO_C) == false)
 	{
 		// Error in configuing the board, so enter infinite loop.
@@ -72,15 +72,37 @@ main(void)
   put_string("**************************************\n\r");
 
   // ADD CODE 05
-	
+//	LEDs[0].blue = 0x80;
+//	LEDs[1].red = 0x80;
+//	LEDs[2].red = 0x80;
+//	LEDs[2].blue = 0x80;
+//	LEDs[3].green = 0x80;
+//	LEDs[4].green = 0x80;
+//	LEDs[4].blue = 0x80;
+//	LEDs[5].green = 0x80;
+//	LEDs[5].red = 0x80;
+//	LEDs[6].blue = 0x80;
+//	LEDs[6].red = 0x80;
+//	LEDs[6].green = 0x80;
+//	LEDs[7].blue = 0x80;
+//	LEDs[7].green = 0x40;
+//	LEDs[7].red = 0x20;
+
+
   // ADD CODE 06
-  
+	WS2812B_write(WS2812B_GPIO_ADDR,led_addr,8);
+	
   // Infinite Loop
   while(1){
     
     // ADD CODE 07
+		ws2812b_pulse(LEDs, 8);
 
     // ADD CODE 08
+		for(j = 0; j < 80000; j++){
+			
+		}
+		WS2812B_write(WS2812B_GPIO_ADDR,led_addr,8);
 
     // ADD CODE 08
 

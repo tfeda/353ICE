@@ -27,7 +27,11 @@
 //*****************************************************************************
 void uart0_config_gpio(void)
 {	
-	
+	gpio_enable_port(GPIOA_BASE);
+	gpio_config_digital_enable(GPIOA_BASE, 3); //enable pins 0 and 3
+	gpio_config_alternate_function(GPIOA_BASE, 3);//enable pins 0 and 3
+	gpio_config_port_control(GPIOA_BASE,GPIO_PCTL_PA0_M | GPIO_PCTL_PA1_M,  
+														GPIO_PCTL_PA1_U0TX| GPIO_PCTL_PA0_U0RX);
   // ADD CODE
 }
 
@@ -61,17 +65,20 @@ main(void)
   {
      // ADD CODE
     // User input can be recieved using the uart_rx_poll()
-
+		rx_char = uart_rx_poll(UART0_BASE, true);
     // Echo each character using uart_tx_poll
+		uart_tx_poll(UART0_BASE, rx_char);
 
     // Add the current char to rx_string.
+		rx_string[rx_count] = rx_char;
   }
 
   // Print response[] using uart_tx_poll_string
-
+	uart_tx_poll_string(UART0_BASE, response);
   // Print rx_string[] using uart_tx_poll_string
-
+	uart_tx_poll_string(UART0_BASE, rx_string);
   // Print exit_msg[]
+	uart_tx_poll_string(UART0_BASE, exit_msg);
 
   
   while(1)

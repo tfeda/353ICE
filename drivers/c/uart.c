@@ -291,13 +291,35 @@ bool uart_init(uint32_t uart_base, bool enable_rx_irq, bool enable_tx_irq)
 		uart->IBRD |= 27;
 		uart->FBRD |= 8;
 			
-		uart->LCRH = UART_LCRH_WLEN_8;
-		uart->CTL = UART_CTL_RXE | UART_CTL_TXE | UART_CTL_UARTEN;
+		uart->LCRH = UART_LCRH_WLEN_8 | UART_LCRH_FEN;
 		
-		GPIOA->PCTL = GPIO_PCTL_PA1_U0TX;
+			
     // ADD CODE
     
-    return true;
+		if( enable_rx_irq)
+		{
+				uart->IM |= UART_IM_RXIM | UART_IM_RTIM;
+		}
+
+		if( enable_tx_irq)
+		{
+			uart->IM |= UART_IM_TXIM;
+		}
+
+		if ( enable_rx_irq || enable_tx_irq )
+		{
+			// <ADD CODE> Set the priority to 0.  Be sure to call uart_get_irq_num(uart_base) to   // get the correct IRQn_Type
+		 
+			NVIC_SetPriority(uart_get_irq_num(uart_base),0);
+			// <ADD CODE> Enable the NVIC.  Be sure to call uart_get_irq_num(uart_base) to get
+			// the correct IRQn_Type
+			NVIC_EnableIRQ(uart_get_irq_num(uart_base));
+		}
+		
+		uart->CTL |= UART_CTL_RXE | UART_CTL_TXE | UART_CTL_UARTEN;
+		
+		GPIOA->PCTL |= GPIO_PCTL_PA1_U0TX | GPIO_PCTL_PA0_U0RX;
+		return true;
 
 }
 

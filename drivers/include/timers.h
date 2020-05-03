@@ -34,5 +34,6 @@ bool gp_timer_config_32(uint32_t base_addr, uint32_t mode, bool count_up, bool e
 //*****************************************************************************
 bool gp_timer_wait(uint32_t base_addr, uint32_t ticks);
 
+bool gp_hw_timer_config_32(uint32_t base_addr, uint32_t mode, uint32_t time_count, bool count_up, bool enable_interrupts);
 
 #endif

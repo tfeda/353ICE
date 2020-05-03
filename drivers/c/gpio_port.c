@@ -383,11 +383,24 @@ bool  gpio_config_alternate_function(uint32_t baseAddr, uint8_t pins)
 bool  gpio_config_port_control(uint32_t baseAddr, uint32_t mask, uint32_t pctl)
 {
   GPIOA_Type  *gpioPort;
+	
+	if (verify_base_addr(baseAddr) == 0) return false;
+
 
   // ADD CODE
   // Verify that the base address is a valid GPIO base address
   // using the verify_base_addr function provided above
   
+		gpioPort = (GPIOA_Type *) baseAddr;
+		
+			
+		// The mask parameter is used to identify which bits of the port control
+		// register are going to be modified.  These bits should first be set to
+		// zero
+		gpioPort -> PCTL &= ~mask;
+		
+		// The pctl parameter is the new value that will be written into the bits
+		gpioPort -> PCTL |= pctl;
   // The mask parameter is used to identify which bits of the port control
   // register are going to be modified.  These bits should first be set to
   // zero
@@ -405,6 +418,12 @@ bool  gpio_config_port_control(uint32_t baseAddr, uint32_t mask, uint32_t pctl)
 bool  gpio_config_open_drain(uint32_t gpioBase, uint8_t pins)
 {
   GPIOA_Type  *gpioPort;
+	
+	if (verify_base_addr(gpioBase) == 0) return false;
+	gpioPort = (GPIOA_Type *) gpioBase;
+	
+	gpioPort->ODR |= pins;
+	
 
   // ADD CODE
   // Verify that the base address is a valid GPIO base address
@@ -436,5 +455,9 @@ bool  gpio_config_falling_edge_irq(uint32_t gpioBase, uint8_t pins)
   // Verify that the base address is a valid GPIO base address
   // using the verify_base_addr function provided above
     
+	if(verify_base_addr(gpioBase) == false) return false;
+	
+	
+	
   return true;
 }

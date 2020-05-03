@@ -1,6 +1,7 @@
---cpu=Cortex-M4.fp
+--cpu=Cortex-M4.fp.sp
 ".\obj\main.o"
 ".\obj\ws2812b.o"
+".\obj\ws2812b_ice.o"
 "..\lib\ECE353-Validate.lib"
 ".\obj\startup_tm4c123.o"
 ".\obj\system_tm4c123.o"

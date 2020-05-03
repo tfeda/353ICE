@@ -133,7 +133,7 @@
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
-            <Capability>0</Capability>
+            <Capability>1</Capability>
             <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
@@ -401,6 +401,11 @@
               <FileName>ws2812b_ice.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\peripherals\c\ws2812b_ice.c</FilePath>
+            </File>
+            <File>
+              <FileName>ws2812b.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\peripherals\include\ws2812b.h</FilePath>
             </File>
           </Files>
         </Group>
