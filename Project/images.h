@@ -22,4 +22,10 @@ extern const uint8_t bombHeightPixels;
 extern const uint8_t missleBitmaps[];
 extern const uint8_t missleWidthPixels;
 extern const uint8_t missleHeightPixels;
+
+// Bitmap info for heart
+extern const uint8_t heartBitmaps[];
+extern const uint8_t heartWidthPixels;
+extern const uint8_t heartHeightPixels;
+
 #endif

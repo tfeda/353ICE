@@ -34,8 +34,12 @@ volatile uint16_t CAP_TOUCH_X = BOARD_WIDTH / 2;
 volatile uint16_t CAP_TOUCH_Y = BOARD_HEIGHT / 2;
 volatile bool BUTTON_PRESSED = false;
 volatile bool ALERT_MISSLE;
-uint16_t BOMB_X = BOARD_WIDTH / 2;
+
+uint16_t BOMB_X = BOARD_WIDTH / 2; // put bomb in middle of the board
 uint16_t BOMB_Y = BOARD_HEIGHT / 2;
+
+uint16_t HEART_X = BOARD_WIDTH / 2;
+uint16_t HEART_Y = BOARD_HEIGHT - (18) - 5; // put heart at bottom of board
 
 volatile bool ALERT_BOMB_HOLDER;
 
@@ -75,6 +79,7 @@ uint16_t generate_random_number(
 //Used to remove a missle node from a linked list of nodes
 M_node *
 clear_node(M_node *node, M_node *prev){
+	lcd_draw_image(node->x_coord, missleWidthPixels, node->y_coord - 1, missleHeightPixels, missleBitmaps, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
 	if(prev != (M_node *)0){
 		prev->next = node->next;
 		free(node);
@@ -94,7 +99,8 @@ main(void)
 	uint16_t missle_time;
 	uint8_t button_data;
 	M_node *newNode;
-
+	uint8_t life_data;
+	
 	init_hardware();
 	
 	s_missle = malloc(sizeof(M_node));
@@ -103,13 +109,15 @@ main(void)
 	lcd_draw_image(s_missle->x_coord, missleWidthPixels, s_missle->y_coord, missleHeightPixels, missleBitmaps, LCD_COLOR_BLUE, LCD_COLOR_BLACK);
 	
 	lcd_draw_image(BOARD_WIDTH / 2,	bombHolderWidthPixels, BOARD_HEIGHT / 2, bombHolderHeightPixels, bombHolderBitmaps, LCD_COLOR_GREEN, LCD_COLOR_BLACK);
-	
+	lcd_draw_image(HEART_X, heartWidthPixels, HEART_Y, heartHeightPixels, heartBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 
-	io_expander_write_reg(MCP23017_GPIOA_R, 0xFF);
+	//initialize our starting health
+	life_data = 0xFF;
+	io_expander_write_reg(MCP23017_GPIOA_R, life_data);
 	missle_time = 0;
 		
 	//gp_timer_wait(TIMER2_BASE, 1000000);
-
+		
     while(1){
 			if(ALERT_BOMB_HOLDER)
 			{
@@ -128,10 +136,22 @@ main(void)
 				
 				while(node != (M_node *)0){
 					node->y_coord += 1;
+					
+					//Case where missle reaches bottom of board
 					if(node->y_coord > BOARD_HEIGHT - (missleHeightPixels / 2) - 10){
-						lcd_draw_image(node->x_coord, missleWidthPixels, node->y_coord - 1, missleHeightPixels, missleBitmaps, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
 						node = clear_node(node, prev);
 					}
+					//Case where missle hits heart
+					else if(node->y_coord + (missleHeightPixels / 2) >= HEART_Y - (heartHeightPixels / 2) && // missle is below top of heart
+									((node->x_coord + (missleWidthPixels / 2) >= HEART_X - (heartWidthPixels / 2) 
+									&& node->x_coord - (missleWidthPixels /2) <= HEART_X - (heartWidthPixels / 2)) ||  // left side of heart
+									(node->x_coord - (missleWidthPixels / 2) <= HEART_X + (heartWidthPixels / 2) 
+									&& node->x_coord + (missleWidthPixels /2) >= HEART_X + (heartWidthPixels / 2)))) // right side of heart
+									{
+										life_data = life_data >> 3;
+										io_expander_write_reg(MCP23017_GPIOA_R, life_data);
+										node = clear_node(node, prev);
+									}
 					else{
 						lcd_draw_image(node->x_coord, missleWidthPixels, node->y_coord, missleHeightPixels, missleBitmaps, LCD_COLOR_BLUE, LCD_COLOR_BLACK);
 						prev = node;
