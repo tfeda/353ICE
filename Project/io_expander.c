@@ -1,56 +1,104 @@
 #include "io_expander.h"
 
 
-// ADD CODE
-#define IODIRA    0x00
-#define IODIRB    0x01
-#define IO_EXPANDER_GPIOA   0x12
-#define IO_EXPANDER_GPIOB   0x13
 
-#define FIXME   0x00
-
-//*****************************************************************************
-// Initializes both the A and B ports of the IO expander to be outputs.
-// The IODIRA and IODIRB registers need to be set to 0x00.
-//
-// Paramters
-//    i2c_base:   a valid base address of an I2C peripheral
-//*****************************************************************************
-bool io_expander_init(void)
-{
-  
-  //==============================================================
-  // Set Slave Address of the MCP23017 
-  //==============================================================  
-  i2cSetSlaveAddr(IO_EXPANDER_I2C_BASE, MCP23017_DEV_ID, I2C_WRITE);
-  
-  //==============================================================
-  // Set the Direction of IODIRA to be outputs
-  // Write 0x00 to IODIRA
-  //==============================================================
-  // Send the IODIRA Address
-  i2cSendByte( IO_EXPANDER_I2C_BASE, IODIRA, I2C_MCS_START | I2C_MCS_RUN );
-
-  // Set PortA to be outputs
-  i2cSendByte( IO_EXPANDER_I2C_BASE, IODIRA,  I2C_MCS_RUN | I2C_MCS_STOP );
-
-  //==============================================================
-  // Set the Direction of IODIRB to be outputs
-  // Write 0x00 to IODIRB
-  //==============================================================
-  // Send the IODIRB Address
-  i2cSendByte( IO_EXPANDER_I2C_BASE, IODIRB, I2C_MCS_START | I2C_MCS_RUN );
-
-  // Set PortB to be outputs
-  i2cSendByte( IO_EXPANDER_I2C_BASE, IODIRB, I2C_MCS_RUN | I2C_MCS_STOP );
-	
-	return true;
-}
 
 void io_expander_write_reg(uint8_t reg, uint8_t data){
-
+  while (I2CMasterBusy(I2C1_BASE)){}
+	i2cSetSlaveAddr(I2C1_BASE, MCP23017_DEV_ID, I2C_WRITE);
+	i2cSendByte(I2C1_BASE, reg, I2C_MCS_START | I2C_MCS_RUN);
+	i2cSendByte(I2C1_BASE, data, I2C_MCS_RUN | I2C_MCS_STOP);
 }
 
-uint8_t io_expander_read_reg(uint8_t data){
+uint8_t io_expander_read_reg(uint8_t reg){
+  uint8_t data_read;
+	i2c_status_t i2c_status;
+	
+	// Wait if master is busy
+	while(I2CMasterBusy(I2C1_BASE)){};	    
+		
+	i2c_status = i2cSetSlaveAddr(I2C1_BASE, MCP23017_DEV_ID, I2C_WRITE); 
+	if (i2c_status != I2C_OK )
+		return i2c_status;
+	
+	i2c_status = i2cSendByte(I2C1_BASE, reg, I2C_MCS_START | I2C_MCS_RUN);
+	if ( i2c_status != I2C_OK )
+		return i2c_status;
+	
+	i2c_status = i2cSetSlaveAddr(I2C1_BASE, MCP23017_DEV_ID, I2C_READ);
+	if ( i2c_status != I2C_OK )
+		return i2c_status;
+	
+	i2c_status = i2cGetByte(I2C1_BASE, &data_read, I2C_MCS_START | I2C_MCS_RUN | I2C_MCS_STOP);
+	if ( i2c_status != I2C_OK )
+		return i2c_status;
+	
+	return data_read;
+}
 
+
+bool io_expander_init(void){
+	//==============================
+  // Configure I2C GPIO Pins
+  //==============================  
+  if(gpio_enable_port(IO_EXPANDER_GPIO_BASE) == false)
+    return false;
+  if(gpio_enable_port(GPIOF_BASE) == false)
+		return false;
+	
+  // Configure SCL 
+  if(gpio_config_digital_enable(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SCL_PIN)== false)
+    return false;   
+  if(gpio_config_alternate_function(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SCL_PIN)== false)
+    return false;
+  if(gpio_config_port_control(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SCL_PCTL_M, IO_EXPANDER_I2C_SCL_PIN_PCTL)== false)
+    return false;
+   
+  // Configure SDA 
+  if(gpio_config_digital_enable(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SDA_PIN)== false)
+    return false;
+  if(gpio_config_open_drain(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SDA_PIN)== false)
+    return false;
+  if(gpio_config_alternate_function(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SDA_PIN)== false)
+    return false;
+  if(gpio_config_port_control(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SDA_PCTL_M, IO_EXPANDER_I2C_SDA_PIN_PCTL)== false)
+    return false;
+  
+  //  Initialize the TIVA board to be master
+  if( initializeI2CMaster(IO_EXPANDER_I2C_BASE)!= I2C_OK)
+    return false;
+	
+	// Set slave to be the IO_expander 
+	i2cSetSlaveAddr(I2C1_BASE, MCP23017_DEV_ID, I2C_WRITE);
+	
+	// Config ALL 8 pins on portA to be outputs
+	io_expander_write_reg(MCP23017_IODIRA_R, 0x00);
+  
+	// Config ALL 8 pins on portB to be inputs
+	io_expander_write_reg(MCP23017_IODIRB_R, 0xFF);
+	
+	// Compare button with previous value
+	io_expander_write_reg(MCP23017_IOCONB_R, 0);
+	
+	// Setup INTB to interrupt on input change
+	io_expander_write_reg(MCP23017_GPINTENB_R, 0xF);
+	
+	// Pull-up resistor to fix krachy's mistake
+	io_expander_write_reg(MCP23017_GPPUB_R, 0x0F);
+	
+	// Enable edge triggering interrupts
+	if(!gpio_config_falling_edge_irq(GPIOF_BASE, PF0)) 
+		return false;
+	NVIC_SetPriority(GPIOF_IRQn, 2);
+	NVIC_EnableIRQ(GPIOF_IRQn);
+	
+	// Read cap register in every initialization to clear interrupt
+	io_expander_read_reg(MCP23017_INTCAPB_R);
+
+	// Initialize 8 LEDS above screen
+	//io_expander_write_reg(MCP23017_IOCONA_R, 0);
+	//io_expander_write_reg(MCP23017_IODIRA_R, 0);
+
+  
+  return true;
 }

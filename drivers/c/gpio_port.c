@@ -432,21 +432,6 @@ bool  gpio_config_open_drain(uint32_t gpioBase, uint8_t pins)
   return true;
 }
 
-//******************************************************************************
-// Enabling a GPIO pin to generate and interrupt on the falling edge of a signal
-//
-// Paramters
-//    baseAddr - Base address of GPIO port that is being enabled.
-//    pins  -   A bit mask indicating which pins should be configured to 
-//              generate a falling edge interrupt.  A 1 in the bitmask
-//              indicates that the pin will generate an interrupt.  A 0 in the 
-//              bit mask indicates that the pin should not be modifed from
-//              its current configuration.
-//
-// Returns
-//      true    if gpioBase is a valid GPIO Port  Address
-//      false   if gpioBase is not a valid GPIO Port Address 
-//*****************************************************************************
 bool  gpio_config_falling_edge_irq(uint32_t gpioBase, uint8_t pins)
 {
   GPIOA_Type  *gpioPort;
@@ -454,10 +439,18 @@ bool  gpio_config_falling_edge_irq(uint32_t gpioBase, uint8_t pins)
   // ADD CODE
   // Verify that the base address is a valid GPIO base address
   // using the verify_base_addr function provided above
-    
-	if(verify_base_addr(gpioBase) == false) return false;
-	
-	
-	
+    if(!verify_base_addr(gpioBase))
+        return false;
+
+    gpioPort = (GPIOA_Type *)gpioBase;
+
+    // These steps (pg 664 in datasheet) prevents false interrupts
+    gpioPort->IM &= ~(pins & GPIO_IM_GPIO_M); // clear IM reg
+    gpioPort->IS &= ~(pins & 0xFF); //  0 means it's edge sensitive
+    gpioPort->IBE &= ~(pins & 0xFF); // 0 means interrupt generation is controlled by IEV
+    gpioPort->RIS &= ~(pins & GPIO_RIS_GPIO_M); // 0 means an interrupt condition has NOT occured on corresponding pin
+    gpioPort->IEV &= ~(pins & 0xFF); // 0 means a falling edge on corresponding pin triggers an interrupt
+    gpioPort->IM |= (pins & GPIO_IM_GPIO_M); // 1 means interrupt is sent to interrupt controller
+
   return true;
 }

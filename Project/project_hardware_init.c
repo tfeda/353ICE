@@ -20,7 +20,6 @@
 // NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "main.h"
 #include "project_hardware_init.h"
 #define PERIODIC TIMER_TAMR_TAMR_PERIOD
 
@@ -33,8 +32,11 @@ init_hardware(void)
   lcd_config_gpio();
   lcd_config_screen();
 	ft6x06_init();
+	
+	io_expander_init();
   lcd_clear_screen(LCD_COLOR_BLACK);
+	
 	gp_hw_timer_config_32(TIMER2_BASE, PERIODIC, 1000000, false, true); // used for animating the bomb holder
-
+	gp_hw_timer_config_32(TIMER3_BASE, PERIODIC, 1000000, false, true); // used for animating missles
 	EnableInterrupts();	
 }

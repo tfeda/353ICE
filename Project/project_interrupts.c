@@ -20,9 +20,12 @@
 // NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "main.h"
 #include "project_interrupts.h"
 
+void TIMER3A_Handler(void){
+	ALERT_MISSLE = true;
+	TIMER3->ICR |= TIMER_ICR_TATOCINT;
+}
 
 void TIMER2A_Handler(void){
 	uint8_t touch_event;
@@ -47,5 +50,9 @@ void TIMER2A_Handler(void){
 	TIMER2->ICR |= TIMER_ICR_TATOCINT;
 }
 
-
-
+void GPIOF_Handler() 
+{
+	//printf("entered GPIOF_handler\n");
+		BUTTON_PRESSED = true;
+		GPIOF->ICR |= GPIO_ICR_GPIO_M;
+}

@@ -1,4 +1,5 @@
 .\obj\project_interrupts.o: project_interrupts.c
+.\obj\project_interrupts.o: project_interrupts.h
 .\obj\project_interrupts.o: main.h
 .\obj\project_interrupts.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\obj\project_interrupts.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -29,5 +30,6 @@
 .\obj\project_interrupts.o: ..\drivers\include\uart.h
 .\obj\project_interrupts.o: images.h
 .\obj\project_interrupts.o: project_interrupts.h
-.\obj\project_interrupts.o: main.h
 .\obj\project_interrupts.o: project_hardware_init.h
+.\obj\project_interrupts.o: main.h
+.\obj\project_interrupts.o: ..\peripherals\include\io_expander.h

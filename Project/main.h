@@ -38,14 +38,16 @@
 #include "images.h"
 #include "project_interrupts.h"
 #include "project_hardware_init.h"
+#include "io_expander.h"
 
 #define BOARD_WIDTH 240
 #define BOARD_HEIGHT 320
 
+typedef struct m_node M_node;
+
 extern volatile uint16_t CAP_TOUCH_X;
 extern volatile uint16_t CAP_TOUCH_Y;
-extern volatile uint16_t INVADER_X_COORD;
-extern volatile uint16_t INVADER_Y_COORD;
+extern volatile bool BUTTON_PRESSED;
 extern volatile bool ALERT_BOMB_HOLDER;
-extern volatile bool ALERT_INVADER;
+extern volatile bool ALERT_MISSLE;
 #endif
