@@ -462,6 +462,11 @@
               <FileType>1</FileType>
               <FilePath>..\drivers\c\uart.c</FilePath>
             </File>
+            <File>
+              <FileName>driver_defines.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\drivers\include\driver_defines.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

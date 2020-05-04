@@ -22,8 +22,36 @@
 
 #include "project_interrupts.h"
 
+#define PS2_ADC_LOW_THRESHOLD		    0x0400
+#define PS2_ADC_HIGH_THRESHOLD	    0xC00;
+
+static volatile uint16_t PS2_X_DATA = 0;
+static volatile uint16_t PS2_Y_DATA = 0;
+
+//*****************************************************************************
+// Returns the most current direction that was pressed.
+//*****************************************************************************
+PS2_DIR_t ps2_get_direction(void)
+{
+	PS2_DIR_t return_value=PS2_DIR; //Default, stay in the center
+	
+	if (PS2_X_DATA > 0xC00) return_value = PS2_DIR_LEFT; //Return Left
+	
+	else if (PS2_X_DATA < PS2_ADC_LOW_THRESHOLD) return_value = PS2_DIR_RIGHT;///Return Right
+	
+	else if (PS2_Y_DATA > 0xC00) return_value = PS2_DIR_UP; // Return Up
+	
+	else if (PS2_Y_DATA < PS2_ADC_LOW_THRESHOLD) return_value = PS2_DIR_DOWN; // Return Down
+	
+	else if (PS2_X_DATA > PS2_ADC_LOW_THRESHOLD && PS2_X_DATA < 0xC00) return_value = PS2_DIR_CENTER;
+	
+	return return_value;
+	
+}
+
 void TIMER3A_Handler(void){
 	ALERT_MISSLE = true;
+	ALERT_HEART = true;
 	TIMER3->ICR |= TIMER_ICR_TATOCINT;
 }
 
@@ -48,6 +76,31 @@ void TIMER2A_Handler(void){
 		}
 		
 	TIMER2->ICR |= TIMER_ICR_TATOCINT;
+}
+//*****************************************************************************
+// TIMER4 ISR is used to trigger the ADC
+//*****************************************************************************
+void TIMER4A_Handler(void)
+{	
+	//Set off the Service Sequencer handler for the adc register controlling the ps2 analog stick
+	ADC0->PSSI |= ADC_PSSI_SS2;
+		// Clear the interrupt
+	TIMER4->ICR |= TIMER_ICR_TATOCINT; 
+}
+
+//*****************************************************************************
+// ADC0 SS2 ISR
+//*****************************************************************************
+void ADC0SS2_Handler(void)
+{
+	
+	PS2_X_DATA = ADC0->SSFIFO2;
+	PS2_Y_DATA = ADC0->SSFIFO2;
+	
+	PS2_DIR = ps2_get_direction();
+	
+	  // Clear the interrupt
+  ADC0->ISC |= ADC_ISC_IN2;
 }
 
 void GPIOF_Handler() 

@@ -35,6 +35,7 @@ init_hardware(void)
   lcd_config_gpio();
   lcd_config_screen();
 	io_expander_init();
+	ps2_initialize();
 	ft6x06_init();
 	eeprom_init();
 //	//testing eeprom
@@ -53,5 +54,7 @@ init_hardware(void)
 	
 	gp_hw_timer_config_32(TIMER2_BASE, PERIODIC, 1000000, false, true); // used for animating the bomb holder
 	gp_hw_timer_config_32(TIMER3_BASE, PERIODIC, 1000000, false, true); // used for animating missles
+	gp_hw_timer_config_32(TIMER4_BASE, PERIODIC, 500000, false, true); // used for animating the bomb holder
+
 	EnableInterrupts();	
 }

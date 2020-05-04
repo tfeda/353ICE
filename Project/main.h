@@ -44,6 +44,16 @@
 #define BOARD_WIDTH 240
 #define BOARD_HEIGHT 320
 
+typedef enum{
+  PS2_DIR_UP,
+  PS2_DIR_DOWN,
+  PS2_DIR_LEFT,
+  PS2_DIR_RIGHT,
+  PS2_DIR_CENTER,
+  PS2_DIR_INIT,
+} PS2_DIR_t;
+
+extern volatile PS2_DIR_t PS2_DIR;
 typedef struct m_node M_node;
 
 extern volatile uint16_t CAP_TOUCH_X;
@@ -51,4 +61,6 @@ extern volatile uint16_t CAP_TOUCH_Y;
 extern volatile bool BUTTON_PRESSED;
 extern volatile bool ALERT_BOMB_HOLDER;
 extern volatile bool ALERT_MISSLE;
+extern volatile bool ALERT_HEART;
+
 #endif

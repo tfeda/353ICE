@@ -37,7 +37,9 @@ M_node *s_missle;
 volatile uint16_t CAP_TOUCH_X = BOARD_WIDTH / 2;
 volatile uint16_t CAP_TOUCH_Y = BOARD_HEIGHT / 2;
 volatile bool BUTTON_PRESSED = false;
-volatile bool ALERT_MISSLE;
+volatile bool ALERT_MISSLE = false;
+volatile bool ALERT_HEART = false;
+volatile PS2_DIR_t PS2_DIR = PS2_DIR_CENTER;
 
 uint16_t BOMB_X = BOARD_WIDTH / 2; // put bomb in middle of the board
 uint16_t BOMB_Y = BOARD_HEIGHT / 2;
@@ -254,6 +256,23 @@ main(void)
 				if (button_data & DIR_BTN_UP_PIN){
 					lcd_clear_screen(LCD_COLOR_BLACK);
 					while(1);
+				}
+			}
+			if(ALERT_HEART){
+				switch(PS2_DIR){
+					case PS2_DIR_LEFT:
+						if(HEART_X - 1 >= (heartWidthPixels / 2)+ 5){
+							HEART_X--;
+							lcd_draw_image(HEART_X, heartWidthPixels, HEART_Y, heartHeightPixels, heartBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+						}
+						break;
+					case PS2_DIR_RIGHT:
+						if(HEART_X + 1 < BOARD_WIDTH - (heartWidthPixels / 2) - 5){
+							HEART_X++;
+							lcd_draw_image(HEART_X, heartWidthPixels, HEART_Y, heartHeightPixels, heartBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+						}
+					default:
+						break;
 				}
 			}
 		};
