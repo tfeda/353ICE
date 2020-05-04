@@ -41,6 +41,9 @@
 #include "io_expander.h"
 #include "eeprom.h"
 
+#define RUNNING "Running...\r\n"
+#define PAUSED  "Paused. Press spacebar to continue...\r\n"
+
 #define BOARD_WIDTH 240
 #define BOARD_HEIGHT 320
 
@@ -62,5 +65,6 @@ extern volatile bool BUTTON_PRESSED;
 extern volatile bool ALERT_BOMB_HOLDER;
 extern volatile bool ALERT_MISSLE;
 extern volatile bool ALERT_HEART;
+extern volatile bool paused;
 
 #endif

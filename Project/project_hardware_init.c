@@ -52,9 +52,11 @@ init_hardware(void)
 	
   lcd_clear_screen(LCD_COLOR_BLACK);
 	
+	gp_hw_timer_config_32(TIMER2_BASE, PERIODIC, 1000000, false, true); // used for blinking LED
 	gp_hw_timer_config_32(TIMER2_BASE, PERIODIC, 1000000, false, true); // used for animating the bomb holder
 	gp_hw_timer_config_32(TIMER3_BASE, PERIODIC, 1000000, false, true); // used for animating missles
-	gp_hw_timer_config_32(TIMER4_BASE, PERIODIC, 500000, false, true); // used for animating the bomb holder
+	gp_hw_timer_config_32(TIMER4_BASE, PERIODIC, 500000, false, true); // used for ADC and PS2
+	gp_hw_timer_config_32(TIMER5_BASE, PERIODIC, 10000, false, true); // used for play/pause
 
 	EnableInterrupts();	
 }
