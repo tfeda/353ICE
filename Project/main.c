@@ -39,7 +39,9 @@ volatile uint16_t CAP_TOUCH_Y = BOARD_HEIGHT / 2;
 volatile bool BUTTON_PRESSED = false;
 volatile bool ALERT_MISSLE = false;
 volatile bool ALERT_HEART = false;
+volatile bool paused = false;
 volatile PS2_DIR_t PS2_DIR = PS2_DIR_CENTER;
+
 
 uint16_t BOMB_X = BOARD_WIDTH / 2; // put bomb in middle of the board
 uint16_t BOMB_Y = BOARD_HEIGHT / 2;
@@ -99,6 +101,30 @@ clear_node(M_node *node, M_node *prev){
 	return prev;
 	
 }
+
+//Pauses the game. Busy loop until unpaused.
+void pause_game(void){
+	while(paused) {}
+	}
+
+bool game_over(void){
+	uint8_t data;
+	printf("SCORE %i\n\r", SCORE);
+	printf("HIGH_SCORE %i\n\r", HIGH_SCORE);
+	printf("Press restart buttong to play again.");
+
+
+	if(SCORE > HIGH_SCORE){
+		//write the data to eeprom in little Endian
+		data = SCORE & 0xFF;
+		if (eeprom_byte_write(I2C1_BASE,ADDR_START, data) != I2C_OK) return false;
+		data = SCORE >> 4;
+		if (eeprom_byte_write(I2C1_BASE, ADDR_START + 1, data) != I2C_OK) return false;
+	}
+	
+	lcd_clear_screen(LCD_COLOR_BLACK);
+	while(1);
+}
 const uint8_t* getNumberMap(uint8_t num){
 	switch(num){
 		case 0: return number_0Bitmaps;
@@ -131,24 +157,6 @@ void display_High_Score(void){
 
 }
 
-bool game_over(void){
-	uint8_t data;
-	printf("SCORE %i\n\r", SCORE);
-	printf("HIGH_SCORE %i\n\r", HIGH_SCORE);
-
-
-	if(SCORE > HIGH_SCORE){
-		//write the data to eeprom in little Endian
-		data = SCORE & 0xFF;
-		if (eeprom_byte_write(I2C1_BASE,ADDR_START, data) != I2C_OK) return false;
-		data = SCORE >> 4;
-		if (eeprom_byte_write(I2C1_BASE, ADDR_START + 1, data) != I2C_OK) return false;
-	}
-	
-	lcd_clear_screen(LCD_COLOR_BLACK);
-	while(1) display_High_Score();
-}
-
 
 bool start_game(void){
 	uint8_t data;
@@ -177,7 +185,7 @@ main(void)
 	init_hardware();
 	
 	start_game();
-	
+	printf("Running...");
 	lcd_clear_screen(LCD_COLOR_BLACK);
 	s_missle = malloc(sizeof(M_node));
 	s_missle->x_coord = BOARD_WIDTH / 4;
@@ -191,10 +199,14 @@ main(void)
 	life_data = 0xFF;
 	io_expander_write_reg(MCP23017_GPIOA_R, life_data);
 	missle_time = 0;
-		
+	
 	//gp_timer_wait(TIMER2_BASE, 1000000);
 		
     while(1){
+			if(paused){
+				pause_game();
+			} // Pause game when spacebar is pressed
+					
 			if(ALERT_BOMB_HOLDER)
 			{
 					//Clear the old bomb

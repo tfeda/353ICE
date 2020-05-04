@@ -99,6 +99,22 @@ void TIMER4A_Handler(void)
 	TIMER4->ICR |= TIMER_ICR_TATOCINT; 
 }
 
+void TIMER5A_Handler(void) {
+ 
+  if (uart_rx_poll(UART0_BASE, false) == 0x20) {
+    paused = !paused;
+    
+    if (!paused) {
+      uart_tx_poll_string(UART0_BASE, RUNNING);
+    } else {
+      uart_tx_poll_string(UART0_BASE, PAUSED);
+    }
+  }
+  
+  // Clear interrupt
+  TIMER5->ICR |= TIMER_ICR_TATOCINT;
+}
+
 //*****************************************************************************
 // ADC0 SS2 ISR
 //*****************************************************************************
