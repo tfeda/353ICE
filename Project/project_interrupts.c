@@ -28,7 +28,8 @@
 static volatile uint16_t PS2_X_DATA = 0;
 static volatile uint16_t PS2_Y_DATA = 0;
 
-bool BLUE_ON = false;
+bool BLUE_ON = false;		//initialize booleans for blinking LED
+bool GREEN_ON = false;
 
 //*****************************************************************************
 // Returns the most current direction that was pressed.
@@ -50,22 +51,51 @@ PS2_DIR_t ps2_get_direction(void)
 	return return_value;
 	
 }
+//*****************************************************************************
+// TIMER1 ISR is used to blink LED while system is alive
+// Blinks green when playing, blue when paused. 
+//*****************************************************************************
 void TIMER1A_Handler(void){
-	if(BLUE_ON){
+
+	if(paused){ 
+	if(GREEN_ON){ 	//Make sure green light is off
+			lp_io_clear_pin(GREEN_BIT);
+			GREEN_ON = false;}
+	if(BLUE_ON){	 
 					lp_io_clear_pin(BLUE_BIT);
 					BLUE_ON = false;
 	}else{
 			lp_io_set_pin(BLUE_BIT);
 			BLUE_ON = true;
-	}
+	} //Cycle blue light on/off to blink LED
+}
+	if(!paused){ 	
+	if(BLUE_ON){ //Make sure blue light is off
+		lp_io_clear_pin(BLUE_BIT);
+		BLUE_ON = false;}
+	if(GREEN_ON){	
+					lp_io_clear_pin(GREEN_BIT);
+					GREEN_ON = false;
+	}else{
+			lp_io_set_pin(GREEN_BIT); 
+			GREEN_ON = true;
+	} //Cycle green light on/off to blink LED
+}
 	TIMER1->ICR |= TIMER_ICR_TATOCINT;
 }
+
+//*****************************************************************************
+// TIMER3 ISR 
+//*****************************************************************************
 void TIMER3A_Handler(void){
 	ALERT_MISSLE = true;
 	ALERT_HEART = true;
 	TIMER3->ICR |= TIMER_ICR_TATOCINT;
 }
 
+//*****************************************************************************
+// TIMER2 ISR
+//*****************************************************************************
 void TIMER2A_Handler(void){
 	uint8_t touch_event;
 	uint16_t touch_x;
@@ -98,16 +128,20 @@ void TIMER4A_Handler(void)
 		// Clear the interrupt
 	TIMER4->ICR |= TIMER_ICR_TATOCINT; 
 }
-
+//*****************************************************************************
+// Timer5 Play/Pause ISR
+// Press spacebar to pause or resume game.
+//*****************************************************************************
 void TIMER5A_Handler(void) {
  
+	//Check if input is spacebar
   if (uart_rx_poll(UART0_BASE, false) == 0x20) {
-    paused = !paused;
+    paused = !paused; //Set pause to opposite of what it was
     
     if (!paused) {
-      uart_tx_poll_string(UART0_BASE, RUNNING);
+      uart_tx_poll_string(UART0_BASE, RUNNING); //Print Running message if resuming
     } else {
-      uart_tx_poll_string(UART0_BASE, PAUSED);
+      uart_tx_poll_string(UART0_BASE, PAUSED); //Print Paused message if pausing
     }
   }
   
@@ -129,10 +163,11 @@ void ADC0SS2_Handler(void)
 	  // Clear the interrupt
   ADC0->ISC |= ADC_ISC_IN2;
 }
-
+//*****************************************************************************
+//Push button ISR
+//*****************************************************************************
 void GPIOF_Handler() 
 {
-	//printf("entered GPIOF_handler\n");
 		BUTTON_PRESSED = true;
 		GPIOF->ICR |= GPIO_ICR_GPIO_M;
 }

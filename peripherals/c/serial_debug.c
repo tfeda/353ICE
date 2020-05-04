@@ -139,6 +139,8 @@ void serial_debug_tx(uint32_t uart_base, PC_Buffer *tx_buffer, int data)
 //****************************************************************************
 //  This function is called from MicroLIB's stdio library.  By implementing
 //  this function, MicroLIB's getchar(), scanf(), etc will now work.
+//Changes for this project: Set the blocking argument in serial_debug_rx to 
+//  false so that program execution can continue while waitin for input
 // ****************************************************************************/
 int fgetc(FILE* stream)
 {

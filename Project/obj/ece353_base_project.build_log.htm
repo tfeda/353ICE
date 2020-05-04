@@ -5,7 +5,7 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.29.0.0
 Copyright (C) 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Trenton trent, UW Madison, LIC=----
+License Information: Kelly Wegner, HP Inc., LIC=----
  
 Tool Versions:
 Toolchain:       MDK-Lite  Version: 5.29.0.0
@@ -21,13 +21,109 @@ Target DLL:      lmidk-agdi.dll V???
 Dialog DLL:      TCM.DLL V1.36.5.0
  
 <h2>Project:</h2>
-C:\Users\trent\Documents\classes\353\ICE_Distribution\Project\Project.uvprojx
+C:\Users\Test\Documents\ECE353\353ICE\Project\Project.uvprojx
 Project File Date:  05/03/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
-Build target 'Project-F19'
-".\obj\ece353_base_project.axf" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Project-F19'
+compiling project_interrupts.c...
+..\drivers\include\timers.h(39): warning:  #1-D: last line of file ends without a newline
+  #endif
+images.h(47): warning:  #1-D: last line of file ends without a newline
+  #endif
+project_interrupts.c(26): warning:  #47-D: incompatible redefinition of macro "PS2_ADC_HIGH_THRESHOLD"  (declared at line 69 of "..\peripherals\include\ps2.h")
+  #define PS2_ADC_HIGH_THRESHOLD	    0xC00;
+project_interrupts.c(173): warning:  #1-D: last line of file ends without a newline
+  }
+project_interrupts.c: 4 warnings, 0 errors
+compiling project_hardware_init.c...
+..\drivers\include\timers.h(39): warning:  #1-D: last line of file ends without a newline
+  #endif
+images.h(47): warning:  #1-D: last line of file ends without a newline
+  #endif
+project_hardware_init.c(64): warning:  #1-D: last line of file ends without a newline
+  }
+project_hardware_init.c(30): warning:  #177-D: variable "i"  was declared but never referenced
+  	int i;
+project_hardware_init.c(31): warning:  #177-D: variable "data"  was declared but never referenced
+  	uint8_t data;
+project_hardware_init.c: 5 warnings, 0 errors
+compiling main.c...
+..\drivers\include\timers.h(39): warning:  #1-D: last line of file ends without a newline
+  #endif
+images.h(47): warning:  #1-D: last line of file ends without a newline
+  #endif
+main.c(140): warning:  #940-D: missing return statement at end of non-void function "getNumberMap" 
+  }
+main.c(162): warning:  #177-D: variable "lcd_char"  was declared but never referenced
+  	char lcd_char;
+main.c: 4 warnings, 0 errors
+compiling images.c...
+images.h(47): warning:  #1-D: last line of file ends without a newline
+  #endif
+images.c: 1 warning, 0 errors
+compiling adc.c...
+compiling gpio_port.c...
+..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
+         return 0;
+..\drivers\c\gpio_port.c(127): warning:  #550-D: variable "pr_mask"  was set but never used
+    uint32_t pr_mask = 0;
+..\drivers\c\gpio_port.c: 2 warnings, 0 errors
+compiling pc_buffer.c...
+compiling i2c.c...
+compiling spi.c...
+compiling timers.c...
+..\drivers\include\timers.h(39): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\drivers\c\timers.c(113): warning:  #188-D: enumerated type mixed with another type
+         return 0;
+..\drivers\c\timers.c(125): warning:  #550-D: variable "gp_timer"  was set but never used
+    TIMER0_Type *gp_timer;
+..\drivers\c\timers.c(174): warning:  #550-D: variable "gp_timer"  was set but never used
+    TIMER0_Type *gp_timer;
+..\drivers\c\timers.c(299): warning:  #1-D: last line of file ends without a newline
+  }
+..\drivers\c\timers.c: 5 warnings, 0 errors
+compiling uart.c...
+..\drivers\c\uart.c(184): warning:  #188-D: enumerated type mixed with another type
+         return 0;
+..\drivers\c\uart.c: 1 warning, 0 errors
+compiling accel.c...
+..\peripherals\c\accel.c(10): warning:  #177-D: function "accel_CSN_low"  was declared but never referenced
+  static __INLINE void  accel_CSN_low(void)
+..\peripherals\c\accel.c(18): warning:  #177-D: function "accel_CSN_high"  was declared but never referenced
+  static __INLINE void  accel_CSN_high(void)
+..\peripherals\c\accel.c: 2 warnings, 0 errors
+compiling eeprom.c...
+compiling ft6x06.c...
+..\peripherals\c\ft6x06.c(104): warning:  #186-D: pointless comparison of unsigned integer with zero
+  	if (data < 0 || data > 2)
+..\peripherals\c\ft6x06.c(229): warning:  #1-D: last line of file ends without a newline
+  } 
+..\peripherals\c\ft6x06.c: 2 warnings, 0 errors
+compiling ps2.c...
+compiling launchpad_io.c...
+compiling lcd.c...
+assembling ws2812b.s...
+compiling spi_select.c...
+compiling serial_debug.c...
+..\peripherals\c\serial_debug.c(173): warning:  #177-D: variable "uart_base"  was declared but never referenced
+     uint32_t uart_base;
+..\peripherals\c\serial_debug.c(174): warning:  #177-D: variable "tx_buffer"  was declared but never referenced
+     PC_Buffer *tx_buffer;
+..\peripherals\c\serial_debug.c(292): warning:  #1-D: last line of file ends without a newline
+  }
+..\peripherals\c\serial_debug.c: 3 warnings, 0 errors
+compiling io_expander.c...
+io_expander.c(101): warning:  #1-D: last line of file ends without a newline
+  }
+io_expander.c: 1 warning, 0 errors
+assembling startup_TM4C123.s...
+compiling system_TM4C123.c...
+linking...
+Program Size: Code=11256 RO-data=3132 RW-data=60 ZI-data=4124  
+".\obj\ece353_base_project.axf" - 0 Error(s), 30 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -45,18 +141,18 @@ Package Vendor: Keil
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_Project-F19
-  C:\Users\trent\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include
-  C:\Users\trent\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123
+  C:\Users\Test\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include
+  C:\Users\Test\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123
 
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.3.0
 
    * Component: Keil::Device:Startup:1.0.1
-      Source file:   Device\Source\system_TM4C123.c
-      Include file:  Device\Include\TM4C123\TM4C123.h
       Source file:   Device\Source\ARM\startup_TM4C123.s
-Build Time Elapsed:  00:00:00
+      Include file:  Device\Include\TM4C123\TM4C123.h
+      Source file:   Device\Source\system_TM4C123.c
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

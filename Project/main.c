@@ -39,7 +39,7 @@ volatile uint16_t CAP_TOUCH_Y = BOARD_HEIGHT / 2;
 volatile bool BUTTON_PRESSED = false;
 volatile bool ALERT_MISSLE = false;
 volatile bool ALERT_HEART = false;
-volatile bool paused = false;
+volatile bool paused = false;			//true if game is paused
 volatile PS2_DIR_t PS2_DIR = PS2_DIR_CENTER;
 
 
@@ -102,7 +102,7 @@ clear_node(M_node *node, M_node *prev){
 	
 }
 
-//Pauses the game. Busy loop until unpaused.
+// Pauses the game. Busy loop until unpaused.
 void pause_game(void){
 	while(paused) {}
 	}
@@ -111,8 +111,7 @@ bool game_over(void){
 	uint8_t data;
 	printf("SCORE %i\n\r", SCORE);
 	printf("HIGH_SCORE %i\n\r", HIGH_SCORE);
-	printf("Press restart buttong to play again.");
-
+	printf("Press restart button to play again.");
 
 	if(SCORE > HIGH_SCORE){
 		//write the data to eeprom in little Endian
