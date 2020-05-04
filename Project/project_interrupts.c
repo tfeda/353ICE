@@ -28,6 +28,8 @@
 static volatile uint16_t PS2_X_DATA = 0;
 static volatile uint16_t PS2_Y_DATA = 0;
 
+bool BLUE_ON = false;
+
 //*****************************************************************************
 // Returns the most current direction that was pressed.
 //*****************************************************************************
@@ -48,7 +50,16 @@ PS2_DIR_t ps2_get_direction(void)
 	return return_value;
 	
 }
-
+void TIMER1A_Handler(void){
+	if(BLUE_ON){
+					lp_io_clear_pin(BLUE_BIT);
+					BLUE_ON = false;
+	}else{
+			lp_io_set_pin(BLUE_BIT);
+			BLUE_ON = true;
+	}
+	TIMER1->ICR |= TIMER_ICR_TATOCINT;
+}
 void TIMER3A_Handler(void){
 	ALERT_MISSLE = true;
 	ALERT_HEART = true;

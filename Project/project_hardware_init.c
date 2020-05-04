@@ -34,10 +34,12 @@ init_hardware(void)
 	init_serial_debug(true, true);
   lcd_config_gpio();
   lcd_config_screen();
-	io_expander_init();
+	lp_io_init();
 	ps2_initialize();
 	ft6x06_init();
 	eeprom_init();
+	io_expander_init();
+
 //	//testing eeprom
 //	printf("writing\n");
 //	eeprom_byte_write(EEPROM_I2C_BASE, 256, 20);
@@ -52,6 +54,7 @@ init_hardware(void)
 	
   lcd_clear_screen(LCD_COLOR_BLACK);
 	
+	gp_hw_timer_config_32(TIMER1_BASE,PERIODIC, 50000000, false, true); //used for blue LED
 	gp_hw_timer_config_32(TIMER2_BASE, PERIODIC, 1000000, false, true); // used for animating the bomb holder
 	gp_hw_timer_config_32(TIMER3_BASE, PERIODIC, 1000000, false, true); // used for animating missles
 	gp_hw_timer_config_32(TIMER4_BASE, PERIODIC, 500000, false, true); // used for animating the bomb holder

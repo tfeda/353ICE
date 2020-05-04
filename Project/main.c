@@ -99,23 +99,6 @@ clear_node(M_node *node, M_node *prev){
 	return prev;
 	
 }
-bool game_over(void){
-	uint8_t data;
-	printf("SCORE %i\n\r", SCORE);
-	printf("HIGH_SCORE %i\n\r", HIGH_SCORE);
-
-
-	if(SCORE > HIGH_SCORE){
-		//write the data to eeprom in little Endian
-		data = SCORE & 0xFF;
-		if (eeprom_byte_write(I2C1_BASE,ADDR_START, data) != I2C_OK) return false;
-		data = SCORE >> 4;
-		if (eeprom_byte_write(I2C1_BASE, ADDR_START + 1, data) != I2C_OK) return false;
-	}
-	
-	lcd_clear_screen(LCD_COLOR_BLACK);
-	while(1);
-}
 const uint8_t* getNumberMap(uint8_t num){
 	switch(num){
 		case 0: return number_0Bitmaps;
@@ -144,10 +127,28 @@ void display_High_Score(void){
 	lcd_draw_image(BOARD_WIDTH / 2 - 25, number_WidthPixels, BOARD_HEIGHT/4, number_HeightPixels, first, LCD_COLOR_GREEN, LCD_COLOR_BLACK);
 	lcd_draw_image(BOARD_WIDTH / 2, number_WidthPixels, BOARD_HEIGHT/4, number_HeightPixels, second, LCD_COLOR_GREEN, LCD_COLOR_BLACK);
 	lcd_draw_image(BOARD_WIDTH / 2 + 25, number_WidthPixels, BOARD_HEIGHT/4, number_HeightPixels, third, LCD_COLOR_GREEN, LCD_COLOR_BLACK);
-
 	for(i = 0; i < 10000000; i++){}
 
 }
+
+bool game_over(void){
+	uint8_t data;
+	printf("SCORE %i\n\r", SCORE);
+	printf("HIGH_SCORE %i\n\r", HIGH_SCORE);
+
+
+	if(SCORE > HIGH_SCORE){
+		//write the data to eeprom in little Endian
+		data = SCORE & 0xFF;
+		if (eeprom_byte_write(I2C1_BASE,ADDR_START, data) != I2C_OK) return false;
+		data = SCORE >> 4;
+		if (eeprom_byte_write(I2C1_BASE, ADDR_START + 1, data) != I2C_OK) return false;
+	}
+	
+	lcd_clear_screen(LCD_COLOR_BLACK);
+	while(1) display_High_Score();
+}
+
 
 bool start_game(void){
 	uint8_t data;
@@ -221,7 +222,8 @@ main(void)
 									((node->x_coord + (missleWidthPixels / 2) >= HEART_X - (heartWidthPixels / 2) 
 									&& node->x_coord - (missleWidthPixels /2) <= HEART_X - (heartWidthPixels / 2)) ||  // left side of heart
 									(node->x_coord - (missleWidthPixels / 2) <= HEART_X + (heartWidthPixels / 2) 
-									&& node->x_coord + (missleWidthPixels /2) >= HEART_X + (heartWidthPixels / 2)))) // right side of heart
+									&& node->x_coord + (missleWidthPixels /2) >= HEART_X + (heartWidthPixels / 2)))// right side of heart			
+									) 
 									{
 										life_data = life_data >> 3;
 										io_expander_write_reg(MCP23017_GPIOA_R, life_data);

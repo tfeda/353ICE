@@ -83,18 +83,18 @@ bool io_expander_init(void){
 	// Pull-up resistor to fix krachy's mistake
 	io_expander_write_reg(MCP23017_GPPUB_R, 0x0F);
 	
+	gpio_config_digital_enable(IO_EXPANDER_IRQ_GPIO_BASE, IO_EXPANDER_IRQ_PIN_NUM);
+  gpio_config_enable_pullup(IO_EXPANDER_IRQ_GPIO_BASE, IO_EXPANDER_IRQ_PIN_NUM);
+	
 	// Enable edge triggering interrupts
 	if(!gpio_config_falling_edge_irq(GPIOF_BASE, PF0)) 
 		return false;
-	NVIC_SetPriority(GPIOF_IRQn, 2);
+	NVIC_SetPriority(GPIOF_IRQn, 1);
 	NVIC_EnableIRQ(GPIOF_IRQn);
 	
 	// Read cap register in every initialization to clear interrupt
 	io_expander_read_reg(MCP23017_INTCAPB_R);
 
-	// Initialize 8 LEDS above screen
-	//io_expander_write_reg(MCP23017_IOCONA_R, 0);
-	//io_expander_write_reg(MCP23017_IODIRA_R, 0);
 
   
   return true;
